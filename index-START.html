@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sound of black flags</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="inst">
+<p>
+לחץ על מספרים במקלדת כדי לשמוע סאונד מקורי מההפגנות
+</p>
+
+</div>
+
+  <div class="keys">
+    <div data-key="49" class="key">
+      <kbd>1צ׳רלס קלור</kbd>
+      <span class="sound">1</span>
+    </div>
+    <div data-key="50" class="key">
+      <kbd>בלפור \ כיכר פריז</kbd>
+      <span class="sound">2</span>
+    </div>
+    <div data-key="51" class="key">
+      <kbd>מפעל הדגלים השחורים</kbd>
+      <span class="sound">3</span>
+    </div>
+    <div data-key="52" class="key">
+      <kbd>פתח תקווה</kbd>
+      <span class="sound">4</span>
+    </div>
+    <div data-key="53" class="key">
+      <kbd>מעון רוה״מ</kbd>
+      <span class="sound">5</span>
+    </div>
+    <div data-key="54" class="key">
+      <kbd>ירושלים</kbd>
+      <span class="sound">6</span>
+    </div>
+    <div data-key="55" class="key">
+      <kbd>גשר המיתרים</kbd>
+      <span class="sound">7</span>
+    </div>
+    <div data-key="56" class="key">
+      <kbd>אסף הרופא</kbd>
+      <span class="sound">8</span>
+    </div>
+  </div>
+
+  <div class="credits">
+    <p>
+      <b>קרדיט</b>: <br>
+      תמונה: מיכל רביבו
+      <br>
+      סאונד: עמוד הפייסבוק של מחאת הדגלים השחורים
+    </p>
+  </div>
+
+  <audio data-key="49" src="sounds/צ׳רלס קלור.wav"></audio>
+  <audio data-key="50" src="sounds/כיכר פריז.wav"></audio>
+  <audio data-key="51" src="sounds/מפעל הדגלים השחורים.wav"></audio>
+  <audio data-key="52" src="sounds/פתח תקווה.wav"></audio>
+  <audio data-key="53" src="sounds/מעון רוה״מ.wav"></audio>
+  <audio data-key="54" src="sounds/ירושלים.wav"></audio>
+  <audio data-key="55" src="sounds/גשר המיתרים.wav"></audio>
+  <audio data-key="56" src="sounds/אסף הרופא.wav"></audio>
+  <audio data-key="57" src="sounds/tink.wav"></audio>
+
+<script>
+  function playSound(e){
+    // stops previously initiated sounds:
+    var soundsToStop = document.getElementsByTagName('audio');
+    for(i=0; i<soundsToStop.length; i++) soundsToStop[i].pause();
+
+    // the way to select this:   <audio data-key="76" src="sounds/tink.wav"></audio>
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+
+    //  the way to select this:   <div data-key="76" class="key"> 
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+    // for a null key, stop evaluation:
+    if(!audio) return;
+    // prevent fade of sound if key is pushed multiple times:
+    audio.currentTime = 0;
+    // play:
+    audio.play();
+    // add a class to triger CSS for visuals:
+    key.classList.add('playing')
+   };
+
+// remove transition of each key:
+function removeTransition(e){
+  // find the events with transform property:
+  if(e.propertyName !== 'transform') return
+  // when transition ends, remove the transition by changing the class:
+  this.classList.remove('playing');
+}
+
+// access all the divs with the key class:
+const keys = document.querySelectorAll('.key');
+
+// triger the removeTransition func, based on the transitionend event per each key:
+keys.forEach(key=>key.addEventListener('transitionend', removeTransition));
+// keys.forEach(removeTransition)
+
+// play a sound when a key is pressed by listening to an event:
+window.addEventListener('keydown', playSound)
+
+</script>
+ 
+
+</body>
+</html>
