@@ -14,6 +14,11 @@
 
 </div>
 
+<div class="progress" id="PreLoaderBar">
+  <div class="indeterminate"></div>
+</div>
+
+
   <div class="keys">
     <div data-key="49" class="key">
       <kbd>צ׳רלס קלור</kbd>
@@ -106,6 +111,16 @@ keys.forEach(key=>key.addEventListener('transitionend', removeTransition));
 
 // play a sound when a key is pressed by listening to an event:
 window.addEventListener('keydown', playSound)
+
+
+// hide progress bar when loading is finished:
+document.onreadystatechange = function () {
+            if (document.readyState === "complete") {
+                console.log(document.readyState);
+                document.getElementById("PreLoaderBar").style.display = "none";
+            }
+        }
+
 
 </script>
  
